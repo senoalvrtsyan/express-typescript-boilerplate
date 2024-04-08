@@ -14,4 +14,16 @@ export const userController = {
     const serviceResponse = await userService.findById(id);
     handleServiceResponse(serviceResponse, res);
   },
+
+  addUser: async (req: Request, res: Response) => {
+    const userData = req.body;
+    const serviceResponse = await userService.addUser(userData);
+    handleServiceResponse(serviceResponse, res);
+  },
+
+  deleteUserById: async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id as string, 10);
+    const serviceResponse = await userService.deleteById(id);
+    handleServiceResponse(serviceResponse, res);
+  },
 };

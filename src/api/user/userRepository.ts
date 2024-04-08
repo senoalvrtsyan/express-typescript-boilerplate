@@ -26,6 +26,30 @@ export const userRepository = {
       throw error;
     }
   },
+
+  addUserAsync: async (userData: User): Promise<User> => {
+    try {
+      return await prisma.user.create({
+        data: userData,
+      });
+    } catch (error) {
+      console.error('Error adding user:', error);
+      throw error;
+    }
+  },
+
+  deleteByIdAsync: async (userId: number): Promise<User | null> => {
+    try {
+      return await prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      });
+    } catch (error) {
+      console.error('Error deleting user by ID:', error);
+      throw error;
+    }
+  },
 };
 
 // export const users: User[] = [

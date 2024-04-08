@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 
 import { userController } from '@/api/user/userController';
-import { GetUserSchema } from '@/api/user/userModel';
+import { AddUserSchema, GetOrDeleteUserSchema } from '@/api/user/userModel';
 import { validateRequest } from '@/common/utils/httpHandlers';
 
 export const userRouter: Router = (() => {
@@ -9,7 +9,11 @@ export const userRouter: Router = (() => {
 
   router.get('/', userController.getAllUsers);
 
-  router.get('/:id', validateRequest(GetUserSchema), userController.getUserById);
+  router.get('/:id', validateRequest(GetOrDeleteUserSchema), userController.getUserById);
+
+  router.post('/', validateRequest(AddUserSchema), userController.addUser);
+
+  router.delete('/:id', validateRequest(GetOrDeleteUserSchema), userController.deleteUserById);
 
   return router;
 })();

@@ -35,4 +35,31 @@ export const userService = {
       return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   },
+
+  // Add a new user
+  addUser: async (userData: User): Promise<ServiceResponse<User | null>> => {
+    try {
+      const newUser = await userRepository.addUserAsync(userData);
+      return new ServiceResponse<User>(ResponseStatus.Success, 'User added successfully', newUser, StatusCodes.CREATED);
+    } catch (ex) {
+      const errorMessage = `Error adding user: ${(ex as Error).message}`;
+      logger.error(errorMessage);
+      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  },
+
+  // Deletes a single user by their ID
+  deleteById: async (id: number): Promise<ServiceResponse<User | null>> => {
+    try {
+      const user = await userRepository.deleteByIdAsync(id);
+      if (!user) {
+        return new ServiceResponse(ResponseStatus.Failed, 'User not found', null, StatusCodes.NOT_FOUND);
+      }
+      return new ServiceResponse<User>(ResponseStatus.Success, 'User deleted successfully', user, StatusCodes.OK);
+    } catch (ex) {
+      const errorMessage = `Error deleting user with id ${id}:, ${(ex as Error).message}`;
+      logger.error(errorMessage);
+      return new ServiceResponse(ResponseStatus.Failed, errorMessage, null, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  },
 };

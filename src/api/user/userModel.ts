@@ -12,6 +12,15 @@ export interface User {
 }
 
 // Input Validation for 'GET users/:id' endpoint
-export const GetUserSchema = z.object({
+export const GetOrDeleteUserSchema = z.object({
   params: z.object({ id: commonValidations.id }),
+});
+
+// Input Validation for 'GET users/:id' endpoint
+export const AddUserSchema = z.object({
+  body: z.object({
+    name: z.string(),
+    email: commonValidations.email,
+    age: z.number(),
+  }),
 });
